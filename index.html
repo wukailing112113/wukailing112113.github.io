@@ -91,7 +91,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="eureka-服务注册与发现"><a href="#eureka-服务注册与发现" class="headerlink" title="eureka 服务注册与发现"></a>eureka 服务注册与发现</h3><p>eurekas是为微服务而设计的</p>
+        <h3 id="Spring-Cloud-Eureka-简介"><a href="#Spring-Cloud-Eureka-简介" class="headerlink" title="Spring Cloud Eureka 简介"></a>Spring Cloud Eureka 简介</h3><p>eurekas是为微服务而设计的。Spring Cloud Eureka 是Spring Cloud Netflix项目<br>下的服务治理模块。而Spring Cloud Netflix 项目是Spring Cloud 的子项目之一，<br>主要内容是对Netflix公司一系列开源产品的包装。Spring Cloud 它主要提供的模块包括：<br>服务发现(Eureka)，断路器(Hystrix)，智能路由(Zuul)，客户端负载均衡(Ribbon)等。</p>
+<h3 id="Spring-Cloud-Eureka作用"><a href="#Spring-Cloud-Eureka作用" class="headerlink" title="Spring Cloud Eureka作用"></a>Spring Cloud Eureka作用</h3><p>Eureka 提供服务注册服务，各个服务启动后，会在Eureka中进行注册。这里<br>所说的服务不单单是服务提供者，也包括服务消费者，它们都会注册到Eureka<br>服务器上，当消费时也是从Eureka获取服务提供者提供的服务。当然Eureka也可以做到负载均衡。</p>
+<h3 id="Eureka结构图"><a href="#Eureka结构图" class="headerlink" title="Eureka结构图"></a>Eureka结构图</h3><p><img src="file:F://blog//gitblog//public//css//images//eureka_architecture.png" alt=""></p>
 
       
     </div>
