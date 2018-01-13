@@ -93,12 +93,15 @@
       
         <h3 id="Spring-Cloud-Eureka-简介"><a href="#Spring-Cloud-Eureka-简介" class="headerlink" title="Spring Cloud Eureka 简介"></a>Spring Cloud Eureka 简介</h3><p>eurekas是为微服务而设计的。Spring Cloud Eureka 是Spring Cloud Netflix项目<br>下的服务治理模块。而Spring Cloud Netflix 项目是Spring Cloud 的子项目之一，<br>主要内容是对Netflix公司一系列开源产品的包装。Spring Cloud 它主要提供的模块包括：<br>服务发现(Eureka)，断路器(Hystrix)，智能路由(Zuul)，客户端负载均衡(Ribbon)等。</p>
 <h3 id="Spring-Cloud-Eureka作用"><a href="#Spring-Cloud-Eureka作用" class="headerlink" title="Spring Cloud Eureka作用"></a>Spring Cloud Eureka作用</h3><p>Eureka 提供服务注册服务，各个服务启动后，会在Eureka中进行注册。这里<br>所说的服务不单单是服务提供者，也包括服务消费者，它们都会注册到Eureka<br>服务器上，当消费时也是从Eureka获取服务提供者提供的服务。当然Eureka也可以做到负载均衡。</p>
-<h3 id="Eureka结构图"><a href="#Eureka结构图" class="headerlink" title="Eureka结构图"></a>Eureka结构图</h3><p><img src="file:F://blog//gitblog//public//css//images//eureka_architecture.png" alt=""></p>
-
+<h3 id="Eureka结构图"><a href="#Eureka结构图" class="headerlink" title="Eureka结构图"></a>Eureka结构图</h3><p>如图为Eureka的高级架构图，该图片来自于Eureka开源代码的文档，地址为<a href="https://github.com/Netflix/eureka/wiki/Eureka-at-a-glance" target="_blank" rel="noopener">https://github.com/Netflix/eureka/wiki/Eureka-at-a-glance</a> 。<br><img src="https://github.com/wukailing112113/wukailing112113.github.io/blob/master/css/images/eureka_architecture.png?raw=true" alt="GitHub" title="GitHub,Social Coding"></p>
+<h3 id="Eureka-springboot搭建项目"><a href="#Eureka-springboot搭建项目" class="headerlink" title="Eureka springboot搭建项目"></a>Eureka springboot搭建项目</h3><p>pom.xml maven 主要的依赖<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">&lt;artifactId&gt;spring-cloud-starter-eureka-server&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="程序启动入口"><a href="#程序启动入口" class="headerlink" title="程序启动入口"></a>程序启动入口</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/** 程序入口http://localhost:6660   （配置文件指定使用6660端口）</span><br><span class="line"> * 服务注册中心，个人觉得作用类似zookeeper。 暂且理解  》》》 服务消费者和提供者都到这里来获取服务的意思吧</span><br><span class="line"> * Created by Sawyer on 2017/11/22.</span><br><span class="line"> */</span><br><span class="line">@EnableEurekaServer</span><br><span class="line">@SpringBootApplication</span><br><span class="line">public class Application &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(Application.class,args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="配置文件application-properties"><a href="#配置文件application-properties" class="headerlink" title="配置文件application.properties"></a>配置文件application.properties</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##使用java -jar xxxx.jar --spring.profiles.active=peer1进行启动</span></span><br><span class="line">server.port = 6660</span><br><span class="line">spring.application.name=eureka-server</span><br><span class="line"><span class="comment">#peer1 在host文件对应本机IP 127.0.0.1</span></span><br><span class="line">eureka.instance.hostname=peer1</span><br><span class="line"></span><br><span class="line"><span class="comment">#eureka.client.register-with-eureka=true</span></span><br><span class="line"><span class="comment">#eureka.client.fetch-registry=true</span></span><br><span class="line"></span><br><span class="line">eureka.client.registerWithEureka=<span class="literal">false</span></span><br><span class="line">eureka.client.fetchRegistry=<span class="literal">false</span></span><br><span class="line"></span><br><span class="line">eureka.client.serviceUrl.defaultZone=http://127.0.0.1:6660/eureka/</span><br></pre></td></tr></table></figure>
+<h3 id="启动springboot工程，在浏览器运行http-127-0-0-1-6660，如下图所示，服务中心已经启动起来了，此时还没有任何服务注册进来。"><a href="#启动springboot工程，在浏览器运行http-127-0-0-1-6660，如下图所示，服务中心已经启动起来了，此时还没有任何服务注册进来。" class="headerlink" title="启动springboot工程，在浏览器运行http://127.0.0.1:6660，如下图所示，服务中心已经启动起来了，此时还没有任何服务注册进来。"></a>启动springboot工程，在浏览器运行<a href="http://127.0.0.1:6660，如下图所示，服务中心已经启动起来了，此时还没有任何服务注册进来。" target="_blank" rel="noopener">http://127.0.0.1:6660，如下图所示，服务中心已经启动起来了，此时还没有任何服务注册进来。</a></h3>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wukailing112113.github.io/2017/12/27/spring-cloud-eureka/" data-id="cjbp6ggu20000h4lm35ddz0en" class="article-share-link">Share</a>
+      <a data-url="http://wukailing112113.github.io/2017/12/27/spring-cloud-eureka/" data-id="cjcdcoabh00026wlml3ijnjhi" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring-cloud/">spring cloud</a></li></ul>
@@ -137,7 +140,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wukailing112113.github.io/2017/12/07/spring cloud/" data-id="cjbp6e4kz0001yclmzxj2rcsc" class="article-share-link">Share</a>
+      <a data-url="http://wukailing112113.github.io/2017/12/07/spring cloud/" data-id="cjcdcoa9x00006wlmwuft47wg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -182,7 +185,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wukailing112113.github.io/2017/12/05/hello-world/" data-id="cjbp6e4kk0000yclmcoehjjmu" class="article-share-link">Share</a>
+      <a data-url="http://wukailing112113.github.io/2017/12/05/hello-world/" data-id="cjcdcoaao00016wlmf03tzzeg" class="article-share-link">Share</a>
       
       
     </footer>
